@@ -22,6 +22,11 @@ $token = $_POST['token'];
             </div>
         </div>
 
+        <div>
+            <h3>Student Token: <?php echo $token ?> </h3>
+
+        </div>
+
 
         <form action="../confirm.php" method="post">
         <!-- First two quarters -->

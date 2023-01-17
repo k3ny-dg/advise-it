@@ -15,4 +15,3 @@ function generateToken() {
     return $result_token;
 }
 
-
