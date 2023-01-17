@@ -22,12 +22,12 @@ $token = $_POST['token'];
             </div>
         </div>
 
+        <!-- Display Student's identifying token -->
         <div>
             <h3>Student Token: <?php echo $token ?> </h3>
-
         </div>
 
-
+        <!-- Text areas to enter course numbers and notes -->
         <form action="../confirm.php" method="post">
         <!-- First two quarters -->
             <div class="row">
@@ -59,6 +59,7 @@ $token = $_POST['token'];
             <!--SAVE BUTTON -->
             <div class="row">
                 <div class="col-12">
+                    <!-- Pass token to be submitted with data -->
                     <?php echo '<input type="hidden" name="token" value="'.$token.'">' ?>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>

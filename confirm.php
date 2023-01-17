@@ -38,6 +38,11 @@ echo '<form action="'.$back.'" method="post">
         <button type="submit" class="btn btn-large"> Saved!</button>
       </form>';
 
+
+$t = time();
+echo("Last updated: " . date("Y-m-d h:m:s", $t));
+
+
 /*
 if ($success){
     echo '<h3>"Saved!"</h3>';
