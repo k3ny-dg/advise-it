@@ -65,6 +65,5 @@ $token = $_POST['token'];
                 </div>
             </div>
         </form>
-
     </body>
 </html>

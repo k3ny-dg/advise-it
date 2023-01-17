@@ -28,5 +28,4 @@ function generateToken() {
             $result_token .= $allowed_chars[mt_rand(0, strlen($allowed_chars))];
         }
     }
-
 }

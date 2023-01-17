@@ -44,6 +44,7 @@ $t = time();
 echo("Last updated: " . date("Y-m-d h:m:s", $t));
 
 
+
 // TESTING IF-STATEMENT TO CHECK IF DATABASE IS RECEIVING DATA
 /*
 if ($success){
