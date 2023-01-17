@@ -4,9 +4,9 @@ error_reporting(E_ALL);
 include("includes/connect.php");
 include("includes/functions.php");
 
-
-// Auto-refresh solution from user tobias_k on Stack Overflow:
+// PAGE AUTO-REFRESH SOLUTION FROM USER TOBIAS_K ON STACK OVERFLOW:
 // https://stackoverflow.com/a/24942000
+
 // any valid date in the past
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 // always modified right now
@@ -36,10 +36,11 @@ header("Pragma: no-cache");
             <?php
             $unique_id = generateToken();
 
-            //append it to the end of the url
+            // APPEND IT TO THE END OF THE URL
             $unique_url = "student_plan.php/".$unique_id;
             ?>
 
+            <!-- CREATE NEW TOKEN AND GO TO THE NEWLY CREATED STUDENT PLAN -->
             <div class="col-12">
                 <?php echo '<form action="'.$unique_url.'"method="post">
                     <input type="hidden" name="token" value="'.$unique_id.'">

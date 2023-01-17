@@ -4,13 +4,14 @@ error_reporting(E_ALL);
 
 include "includes/connect.php";
 
+// TEST TO ENSURE THE DATA IS POSTING TO THIS PAGE
 /*
 echo "<pre>";
 var_dump($_POST);
 echo "</pre>";
 */
 
-// move form data into variables
+// MOVE FORM DATA INTO VARIABLES
 $q1 = $_POST['q1'];
 $q2 = $_POST['q2'];
 $q3 = $_POST['q3'];
@@ -30,7 +31,7 @@ $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`)
 VALUES ('$token', '$q1', '$q2', '$q3', '$q4')";
 $success = mysqli_query($cnxn, $sql);
 
-
+// GO BACK TO THE PREVIOUS PAGE
 $back = "student_plan.php/".$token;
 
 echo '<form action="'.$back.'" method="post">
@@ -38,11 +39,12 @@ echo '<form action="'.$back.'" method="post">
         <button type="submit" class="btn btn-large"> Saved!</button>
       </form>';
 
-
+// GENERATE VISIBLE TIMESTAMP
 $t = time();
 echo("Last updated: " . date("Y-m-d h:m:s", $t));
 
 
+// TESTING IF-STATEMENT TO CHECK IF DATABASE IS RECEIVING DATA
 /*
 if ($success){
     echo '<h3>"Saved!"</h3>';

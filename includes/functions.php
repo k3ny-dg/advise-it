@@ -1,10 +1,12 @@
 <?php
-//GENERATE RANDOM TOKEN
 
+/**
+ * Generates a unique random token of 6 characters
+ * @return string token
+ */
 function generateToken() {
     $allowed_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $result_token = "";
-
 
     for($i=0; $i <= 5; $i++) {
 
@@ -27,15 +29,4 @@ function generateToken() {
         }
     }
 
-
-/*
-    // loop six times
-    for($i=0; $i <= 5; $i++) {
-
-        // concatenate new random char each time
-        $result_token .= $allowed_chars[mt_rand(0, strlen($allowed_chars))];
-    }
-    // return the generated token
-    return $result_token;
-    */
 }
