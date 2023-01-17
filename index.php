@@ -17,7 +17,6 @@ header("Cache-Control: private, no-store, max-age=0, no-cache, must-revalidate, 
 header("Pragma: no-cache");
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,7 +30,7 @@ header("Pragma: no-cache");
     <body class="container-fluid center">
         <div class="row">
             <div class="col-12 center">
-                <h1 class="center-text">Advise It Homepage</h1>
+                <h1 class="center-text jumbotron" id="home_head">Advise It Homepage</h1>
             </div>
 
             <?php
@@ -42,7 +41,7 @@ header("Pragma: no-cache");
             ?>
 
             <!-- CREATE NEW TOKEN AND GO TO THE NEWLY CREATED STUDENT PLAN -->
-            <div class="col-12">
+            <div class="col-12 center-text">
                 <?php echo '<form action="'.$unique_url.'"method="post">
                     <input type="hidden" name="token" value="'.$unique_id.'">
                     <button type="submit" id="create" class="btn btn-primary center">Create New</button>

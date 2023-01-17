@@ -11,3 +11,18 @@ body{
 .center-text {
     text-align: center;
 }
+
+#create{
+    margin-top: 100px;
+}
+
+#show-token{
+    background-color: azure;
+    border: cadetblue 1px solid;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+#save-btn{
+    margin-top: 50px;
+}
