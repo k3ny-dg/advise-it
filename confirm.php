@@ -24,7 +24,7 @@ echo "<p>TOKEN: $token</p>";
 
 
 $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`)
-VALUES ($token, '$q1', '$q2', '$q3', '$q4')";
+VALUES ('$token', '$q1', '$q2', '$q3', '$q4')";
 $success = mysqli_query($cnxn, $sql);
 
 if ($success){
