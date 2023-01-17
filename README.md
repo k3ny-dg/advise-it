@@ -30,5 +30,3 @@ Keny Dutton-Gillespie
 ### Database
 
 * MySQL
-
----
