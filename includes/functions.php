@@ -30,8 +30,3 @@ function generateToken() {
     }
 }
 
-function checkForChange($token, $q1, $q2, $q3, $q4)
-{
-    $result = mysqli_query("SELECT id FROM student_plan WHERE token = '$token'");
-}
-

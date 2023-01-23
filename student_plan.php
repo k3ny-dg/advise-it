@@ -1,10 +1,8 @@
 <?php
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 include("includes/connect.php");
 require_once($_SERVER['DOCUMENT_ROOT'].'/../config.php');
-
-//$token = $_POST['token'];
 
 $uri = $_SERVER['REQUEST_URI'];
 $token= substr($uri, -6);
@@ -16,6 +14,16 @@ $q3 = "";
 $q4 = "";
 $timestamp = "";
 
+$query = "SELECT * FROM student_plan WHERE token = '$token'";
+$result = mysqli_query($cnxn, $query);
+
+if(mysqli_num_rows($result) == 0) {
+    $sql = "INSERT INTO student_plan (`token`)
+            VALUES ('$token')";
+    $success = mysqli_query($cnxn, $sql);
+    $statement = $dbh->prepare($sql);
+    $statement->execute();
+}
 ?>
 
 <!DOCTYPE html>
@@ -128,20 +136,23 @@ $timestamp = "";
                         }
                 }
                 else {
+
+                    $t = time();
+                    $t_update = date("Y-m-d h:m:s", $t);
+
                     $update = "UPDATE student_plan
-                    SET fall='$q1', winter='$q2', spring='$q3', summer='$q4'
+                    SET fall='$q1', winter='$q2', spring='$q3', summer='$q4', timestamp='$t_update'
                     WHERE token='$token'";
 
                     $update_statement = $dbh->prepare($update);
                     $update_statement->execute();
-
 
                     if(mysqli_num_rows($result) > 0)
                     {
                         foreach ($result as $row) {
 
                             $save_time = $row['timestamp'];
-                            echo '<p id="saved" class="updated center-text">Saved! via update</p>';
+                            echo '<p id="saved" class="updated center-text">Saved!</p>';
                             echo '<p id="timestamp" class="updated center-text"> Last updated: '.$save_time.'</p>';
                         }
                     }
