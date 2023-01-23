@@ -7,7 +7,7 @@
 ## About The Project
 
 A tool to be used by advisors to create course plan for students.
-When a new plan is created, a unique token is generated for that student. This token can be used to access the plan at a later time. *Accessing plan with token is not working at this time*.
+When a new plan is created, a unique token is generated for that student. This token can be used to access the plan at a later time with a token that can be added to the path of the url.
 
 When the plan is "saved" it will save in the database with under the token as a unique id. 
 
