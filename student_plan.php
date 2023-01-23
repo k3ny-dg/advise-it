@@ -4,7 +4,18 @@ error_reporting(E_ALL);
 include("includes/connect.php");
 require_once($_SERVER['DOCUMENT_ROOT'].'/../config.php');
 
-$token = $_POST['token'];
+//$token = $_POST['token'];
+
+$uri = $_SERVER['REQUEST_URI'];
+$token= substr($uri, -6);
+
+// MOVE FORM DATA INTO VARIABLES
+$q1 = "";
+$q2 = "";
+$q3 = "";
+$q4 = "";
+$timestamp = "";
+
 ?>
 
 <!DOCTYPE html>
@@ -30,44 +41,64 @@ $token = $_POST['token'];
 
         <!-- TEXT AREAS TO ENTER COURSE NUMBERS AND NOTES -->
         <form action="" method="post" id="save">
-
-        <!-- FIRST TWO QUARTERS -->
-            <div class="row">
-                <!-- QUARTER 1 -->
-                <div class="col-6 center-text">
-                    <h3>Fall Quarter</h3>
-                    <textarea id="q1" class="q-txtbx" name="q1" value="<?php echo isset($_POST['q1']) ? $_POST['q1'] : '' ?>" rows="4"></textarea>
-                </div>
-
-                <!-- QUARTER 2 -->
-                <div class="col-6 center-text">
-                    <h3>Winter Quarter</h3>
-                    <textarea id="q2" class="q-txtbx" name="q2" value="<?php echo isset($_POST['q2']) ? $_POST['q2'] : '' ?>" rows="4"></textarea>
-                </div>
-            </div>
-
-        <!-- LAST 2 QUARTERS -->
-            <div class="row">
-                <!-- QUARTER 3 -->
-                <div class="col-6 center-text">
-                    <h3>Spring Quarter</h3>
-                    <textarea id="q3" class="q-txtbx" name="q3" value="<?php echo isset($_POST['q3']) ? $_POST['q3'] : '' ?>" rows="4"></textarea>
-                </div>
-
-                <!-- QUARTER 4 -->
-                <div class="col-6 center-text">
-                    <h3>Summer Quarter</h3>
-                    <textarea id="q4" class="q-txtbx" name="q4" value="<?php echo isset($_POST['q4']) ? $_POST['q4'] : '' ?>" rows="4"></textarea>
-                </div>
-            </div>
-
-
             <?php
-            // MOVE FORM DATA INTO VARIABLES
-            $q1 = "";
-            $q2 = "";
-            $q3 = "";
-            $q4 = "";
+
+                $query = "SELECT * FROM student_plan WHERE token = '$token'";
+                $result = mysqli_query($cnxn, $query);
+
+                if(mysqli_num_rows($result) > 0)
+                {
+                    foreach ($result as $row)
+                    {
+                        $fall = $row['fall'];
+                        $winter = $row['winter'];
+                        $spring = $row['spring'];
+                        $summer = $row['summer'];
+            ?>
+
+            <!-- FIRST TWO QUARTERS -->
+                <div class="row">
+                    <!-- QUARTER 1 -->
+                    <div class="col-6 center-text">
+                        <h3>Fall Quarter</h3>
+                        <textarea id="q1" class="q-txtbx" name="q1" rows="4"><?php echo $fall; ?></textarea>
+                    </div>
+
+                    <!-- QUARTER 2 -->
+                    <div class="col-6 center-text">
+                        <h3>Winter Quarter</h3>
+                        <textarea id="q2" class="q-txtbx" name="q2" rows="4"><?php echo $winter; ?></textarea>
+                    </div>
+                </div>
+
+            <!-- LAST 2 QUARTERS -->
+                <div class="row">
+                    <!-- QUARTER 3 -->
+                    <div class="col-6 center-text">
+                        <h3>Spring Quarter</h3>
+                        <textarea id="q3" class="q-txtbx" name="q3" rows="4"><?php echo $spring; ?></textarea>
+                    </div>
+
+                    <!-- QUARTER 4 -->
+                    <div class="col-6 center-text">
+                        <h3>Summer Quarter</h3>
+                        <textarea id="q4" class="q-txtbx" name="q4" rows="4"><?php echo $summer; ?></textarea>
+                    </div>
+                </div>
+
+                <?php
+
+                    }
+                } else {
+                    echo 'Not found';
+                }
+
+            // INSERT NEW SCHEDULE
+
+            $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`)
+            VALUES ('$token', '$q1', '$q2', '$q3', '$q4')";
+           $success = mysqli_query($cnxn, $sql);
+            $statement = $dbh->prepare($sql);
 
             // MOVE FORM DATA INTO VARIABLES
             $q1 = $_POST['q1'];
@@ -75,22 +106,12 @@ $token = $_POST['token'];
             $q3 = $_POST['q3'];
             $q4 = $_POST['q4'];
 
-            // INSERT NEW SCHEDULE
-            $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`)
-            VALUES ('$token', '$q1', '$q2', '$q3', '$q4')";
-            $success = mysqli_query($cnxn, $sql);
-
-            $query = "SELECT * FROM student_plan WHERE token = '$token'";
-
-            $result = mysqli_query($cnxn, $query);
-
-            $statement = $dbh->prepare($sql);
-
             $statement->bindParam('token', $token, PDO::PARAM_STR);
             $statement->bindParam('q1', $q1, PDO::PARAM_STR);
             $statement->bindParam('q2', $q2, PDO::PARAM_STR);
             $statement->bindParam('q3',$q3, PDO::PARAM_STR);
             $statement->bindParam('q4', $q4, PDO::PARAM_STR);
+
 
             if ($result) {
                 if (mysqli_num_rows($result) == 0) {
@@ -99,8 +120,9 @@ $token = $_POST['token'];
                         $success = mysqli_query($cnxn, $sql);
                         $statement->execute();
 
-                            echo "Saved!";
+                            echo "Saved! via save";
                             // GENERATE VISIBLE TIMESTAMP
+
                             $t = time();
                             echo("Last updated: " . date("Y-m-d h:m:s", $t)."\n");
                         }
@@ -114,22 +136,23 @@ $token = $_POST['token'];
                     $update_statement->execute();
 
 
-                    echo '<p id="saved" class="updated center-text">Saved!</p>';
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                        foreach ($result as $row) {
 
-                    $t = time();
-                    echo '<p id="timestamp" class="updated center-text"> Last updated: '.date("Y-m-d h:m:s", $t).'</p>';
-
+                            $save_time = $row['timestamp'];
+                            echo '<p id="saved" class="updated center-text">Saved! via update</p>';
+                            echo '<p id="timestamp" class="updated center-text"> Last updated: '.$save_time.'</p>';
+                        }
+                    }
                 }
             }
-
 
             ?>
 
             <!--SAVE BUTTON -->
             <div class="row center-text">
                 <div class="col-12">
-                    <!-- Pass token to be submitted with data -->
-                    <?php echo '<input type="hidden" name="token" value="'.$token.'">' ?>
                     <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
                 </div>
             </div>
