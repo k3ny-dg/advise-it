@@ -13,6 +13,7 @@ $q2 = "";
 $q3 = "";
 $q4 = "";
 $timestamp = "";
+$advisor = "";
 
 $query = "SELECT * FROM student_plan WHERE token = '$token'";
 $result = mysqli_query($cnxn, $query);
@@ -62,6 +63,7 @@ if(mysqli_num_rows($result) == 0) {
                         $winter = $row['winter'];
                         $spring = $row['spring'];
                         $summer = $row['summer'];
+                        $advisor = $row['advisor'];
             ?>
 
             <!-- FIRST TWO QUARTERS -->
@@ -94,17 +96,24 @@ if(mysqli_num_rows($result) == 0) {
                     </div>
                 </div>
 
+                <!-- ADVISOR -->
+                <div class="row">
+                    <div class="col-12 center-text">
+                        <label for="advisor">Advisor</label>
+                        <br>
+                        <input type="text" id="advisor" class="q-txtbx" name="advisor" value="<?php echo $advisor; ?>">
+                      </div>
+                </div>
+
                 <?php
 
                     }
-                } else {
-                    echo 'Not found';
                 }
 
             // INSERT NEW SCHEDULE
 
-            $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`)
-            VALUES ('$token', '$q1', '$q2', '$q3', '$q4')";
+            $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`, `advisor`)
+            VALUES ('$token', '$q1', '$q2', '$q3', '$q4', '$advisor')";
            $success = mysqli_query($cnxn, $sql);
             $statement = $dbh->prepare($sql);
 
@@ -113,51 +122,35 @@ if(mysqli_num_rows($result) == 0) {
             $q2 = $_POST['q2'];
             $q3 = $_POST['q3'];
             $q4 = $_POST['q4'];
+            $advisor = $_POST['advisor'];
 
             $statement->bindParam('token', $token, PDO::PARAM_STR);
             $statement->bindParam('q1', $q1, PDO::PARAM_STR);
             $statement->bindParam('q2', $q2, PDO::PARAM_STR);
             $statement->bindParam('q3',$q3, PDO::PARAM_STR);
             $statement->bindParam('q4', $q4, PDO::PARAM_STR);
+            $statement->bindParam('advisor', $advisor, PDO::PARAM_STR);
 
 
-            if ($result) {
-                if (mysqli_num_rows($result) == 0) {
+            $t = time();
+            $t_update = date("Y-m-d h:m:s", $t);
 
-                    if (isset($_POST['save'])) {
-                        $success = mysqli_query($cnxn, $sql);
-                        $statement->execute();
+            $update = "UPDATE student_plan
+            SET fall='$q1', winter='$q2', spring='$q3', summer='$q4', timestamp='$t_update', advisor='$advisor'
+            WHERE token='$token'";
 
-                            echo "Saved! via save";
-                            // GENERATE VISIBLE TIMESTAMP
+            $update_statement = $dbh->prepare($update);
+            $update_statement->execute();
 
-                            $t = time();
-                            echo("Last updated: " . date("Y-m-d h:m:s", $t)."\n");
+            if(mysqli_num_rows($result) > 0)
+            {
+                foreach ($result as $row) {
+
+                    $save_time = $row['timestamp'];
+                    echo '<p id="saved" class="updated center-text">Saved!</p>';
+                    echo '<p id="timestamp" class="updated center-text"> Last updated: '.$save_time.'</p>';
                         }
                 }
-                else {
-
-                    $t = time();
-                    $t_update = date("Y-m-d h:m:s", $t);
-
-                    $update = "UPDATE student_plan
-                    SET fall='$q1', winter='$q2', spring='$q3', summer='$q4', timestamp='$t_update'
-                    WHERE token='$token'";
-
-                    $update_statement = $dbh->prepare($update);
-                    $update_statement->execute();
-
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                        foreach ($result as $row) {
-
-                            $save_time = $row['timestamp'];
-                            echo '<p id="saved" class="updated center-text">Saved!</p>';
-                            echo '<p id="timestamp" class="updated center-text"> Last updated: '.$save_time.'</p>';
-                        }
-                    }
-                }
-            }
 
             ?>
 
@@ -168,5 +161,6 @@ if(mysqli_num_rows($result) == 0) {
                 </div>
             </div>
         </form>
+        <script src="../resources/scripts.js"></script>
     </body>
 </html>

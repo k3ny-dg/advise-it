@@ -38,5 +38,8 @@ body{
 
 #saved{
     margin-top: 40px;
-    margin-bottom: 20px;
+}
+
+#timestamp{
+    margin-top: 20px;
 }
