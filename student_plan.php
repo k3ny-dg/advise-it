@@ -106,7 +106,6 @@ if(mysqli_num_rows($result) == 0) {
                 </div>
 
                 <?php
-
                     }
                 }
 
@@ -114,7 +113,7 @@ if(mysqli_num_rows($result) == 0) {
 
             $sql = "INSERT INTO student_plan (`token`,`fall`, `winter`, `spring`, `summer`, `advisor`)
             VALUES ('$token', '$q1', '$q2', '$q3', '$q4', '$advisor')";
-           $success = mysqli_query($cnxn, $sql);
+            $success = mysqli_query($cnxn, $sql);
             $statement = $dbh->prepare($sql);
 
             // MOVE FORM DATA INTO VARIABLES
@@ -147,11 +146,9 @@ if(mysqli_num_rows($result) == 0) {
                 foreach ($result as $row) {
 
                     $save_time = $row['timestamp'];
-                    echo '<p id="saved" class="updated center-text">Saved!</p>';
                     echo '<p id="timestamp" class="updated center-text"> Last updated: '.$save_time.'</p>';
-                        }
                 }
-
+           }
             ?>
 
             <!--SAVE BUTTON -->
@@ -159,6 +156,7 @@ if(mysqli_num_rows($result) == 0) {
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
                 </div>
+
             </div>
         </form>
         <script src="../resources/scripts.js"></script>
