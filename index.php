@@ -50,7 +50,10 @@ header("Pragma: no-cache");
             </div>
 
         </div>
-
-
+            <div id="admin-access">
+                <form action="admin.php">
+                    <button id="admin-btn" class="btn-secondary" type="submit">Admin Access</button>
+                </form>
+            </div>
     </body>
 </html>
