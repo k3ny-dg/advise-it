@@ -51,3 +51,16 @@ body{
     border-radius: 3px;
     border: 1px whitesmoke;
 }
+
+th {
+    color: black;
+}
+
+tr {
+    color: darkslategrey;
+    font-size: .7rem;
+}
+
+#admin-page{
+    margin:60px;
+}

@@ -18,6 +18,8 @@ $advisor = "";
 $query = "SELECT * FROM student_plan WHERE token = '$token'";
 $result = mysqli_query($cnxn, $query);
 
+
+
 if(mysqli_num_rows($result) == 0) {
     $sql = "INSERT INTO student_plan (`token`)
             VALUES ('$token')";
