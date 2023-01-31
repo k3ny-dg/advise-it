@@ -6,8 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/../config.php');
 
 $uri = $_SERVER['REQUEST_URI'];
 $token= substr($uri, -6);
-$t = time();
-$creation = date("Y-m-d h:m:s", $t);
+$creation = date("Y-m-d h:m:s");
 
 // MOVE FORM DATA INTO VARIABLES
 $q1 = "";
@@ -42,6 +41,9 @@ if(mysqli_num_rows($result) == 0) {
         <link rel="stylesheet" href="../resources/styles.css">
     </head>
     <body id="student_body" class="container-fluid center">
+        <div id="print-holder">
+            <button id="print-btn" class="btn-secondary" type="button" onclick="window.print();return false;">Print   🖨️</button>
+        </div>
         <div class="row">
             <div class="col-12 jumbotron center-text">
                 <h1>Course Planning</h1>
@@ -135,9 +137,7 @@ if(mysqli_num_rows($result) == 0) {
             $statement->bindParam('q4', $q4, PDO::PARAM_STR);
             $statement->bindParam('advisor', $advisor, PDO::PARAM_STR);
 
-
-            $t = time();
-            $t_update = date("Y-m-d h:m:s", $t);
+            $t_update = date("Y-m-d h:m:s");
 
             $update = "UPDATE student_plan
             SET fall='$q1', winter='$q2', spring='$q3', summer='$q4', timestamp='$t_update', advisor='$advisor'
