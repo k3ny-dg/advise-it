@@ -6,6 +6,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/../config.php');
 
 $uri = $_SERVER['REQUEST_URI'];
 $token= substr($uri, -6);
+$t = time();
+$creation = date("Y-m-d h:m:s", $t);
 
 // MOVE FORM DATA INTO VARIABLES
 $q1 = "";
@@ -14,6 +16,7 @@ $q3 = "";
 $q4 = "";
 $timestamp = "";
 $advisor = "";
+$created_date = "";
 
 $query = "SELECT * FROM student_plan WHERE token = '$token'";
 $result = mysqli_query($cnxn, $query);
@@ -21,8 +24,8 @@ $result = mysqli_query($cnxn, $query);
 
 
 if(mysqli_num_rows($result) == 0) {
-    $sql = "INSERT INTO student_plan (`token`)
-            VALUES ('$token')";
+    $sql = "INSERT INTO student_plan (`token`, `created_date`)
+            VALUES ('$token', '$creation')";
     $success = mysqli_query($cnxn, $sql);
     $statement = $dbh->prepare($sql);
     $statement->execute();
