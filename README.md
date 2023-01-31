@@ -15,7 +15,7 @@ An administrator can view all entered tokens, their assigned advisors, and the c
 
 Access to the admin page is with the login: 
 
-*Username: admin*
+*Username: admin*/
 *Password: admin*
 
 Project Link: [https://kduttongillespie.greenriverdev.com/Advise-It/](https://kduttongillespie.greenriverdev.com/Advise-It/)
